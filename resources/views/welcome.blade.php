@@ -1,9 +1,16 @@
-@extends('layouts.app')
-
-@section('titulo', 'Listado de Clientes')
-
-@section('contenido')
-    <h1 class="text-2xl font-bold mb-4">Bienvenido al Crud de Clientes</h1>
-    
-    @livewire('clientes')
-@endsection
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido</title>
+</head>
+<body>
+    <h1>Bienvenido</h1>
+    <a href="{{ route('landing.profesor') }}">
+        <button>Profesor</button>
+    </a>
+    <a href="{{ route('landing.alumno') }}">
+        <button>Alumno</button>
+    </a>
+</body>
+</html>

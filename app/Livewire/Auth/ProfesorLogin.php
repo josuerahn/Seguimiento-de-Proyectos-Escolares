@@ -9,7 +9,7 @@ use Livewire\Attributes\Layout;
 
 #[Layout('components.layouts.guest')]
 
-class Login extends Component
+class ProfesorLogin extends Component
 {
     public $email = '';
     public $password = '';
@@ -18,8 +18,8 @@ class Login extends Component
     {
         $credentials = $this->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
-            return redirect()->route('clientes');
+        if (Auth::guard('profesor')->attempt($credentials)) {
+            return redirect()->route('profesor.dashboard');
         }
 
         $this->addError('email', 'Credenciales inválidas.');
@@ -27,6 +27,6 @@ class Login extends Component
 
     public function render()
     {
-        return view('livewire.auth.login');
+        return view('livewire.auth.profesorLogin');
     }
 }

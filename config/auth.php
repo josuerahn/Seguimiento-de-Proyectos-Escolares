@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
@@ -15,7 +14,7 @@ return [
 
     'defaults' => [
         'guard' => env('AUTH_GUARD', 'web'),
-        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+        'passwords' => env('AUTH_PASSWORD_BROKER', ''),
     ],
 
     /*
@@ -35,12 +34,35 @@ return [
     |
     */
 
-    'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
+   'guards' => [
+    'profesor' => [
+        'driver' => 'session',
+        'provider' => 'profesores',
     ],
+    'alumno' => [
+        'driver' => 'session',
+        'provider' => 'alumnos',
+    ],
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
+    ],
+],
+
+'providers' => [
+    'profesores' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Profesor::class,
+    ],
+    'alumnos' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Alumno::class,
+    ],
+    'users' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\User::class,
+    ],
+],
 
     /*
     |--------------------------------------------------------------------------
@@ -64,11 +86,14 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'profesores' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Profesor::class,
+        ],
+        'alumnos' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Alumno::class,
+        ],
     ],
 
     /*
@@ -111,5 +136,4 @@ return [
     */
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
-
 ];

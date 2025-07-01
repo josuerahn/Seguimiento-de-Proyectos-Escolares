@@ -1,13 +1,11 @@
 <?php
-
 namespace App\Livewire\Auth;
-
-use App\Models\User;
+use App\Models\Profesor;
 use Illuminate\Support\Facades\Hash;
-use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
-class Register extends Component
+class ProfesorRegister extends Component
 {
     public $name = '';
     public $email = '';
@@ -18,24 +16,24 @@ class Register extends Component
     {
         $this->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:profesores',
             'password' => 'required|min:6|same:password_confirmation',
+            
         ]);
 
-        $user = User::create([
+        $profesor = Profesor::create([
             'name' => $this->name,
             'email' => $this->email,
             'password' => Hash::make($this->password),
         ]);
 
-        Auth::login($user);
-
-        return redirect()->route('clientes');
+        Auth::login($profesor);
+        //redirigir al dashboard del profesor
+        return redirect()->route('profesor.dashboard');
     }
-
     public function render()
     {
-        return view('livewire.auth.register')
-        ->layout('components.layouts.guest');
+        return view('livewire.auth.profesorRegister')
+            ->layout('components.layouts.guest');
     }
 }
