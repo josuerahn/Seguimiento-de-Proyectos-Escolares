@@ -25,8 +25,10 @@ class EntregaController extends Controller
             'archivo' => 'required|file|mimes:pdf,doc,docx|max:10240', // 10MB
         ]);
 
-        // Subir archivo al disco 'public'
-        $archivoNombre = $request->file('archivo')->store('entregas', 'public');
+        // Subir archivo al disco 'public' con nombre original y prefijo timestamp
+        $archivoOriginal = $request->file('archivo')->getClientOriginalName();
+        $nombreArchivoConPrefijo = time() . '_' . $archivoOriginal;
+        $archivoNombre = $request->file('archivo')->storeAs('entregas', $nombreArchivoConPrefijo, 'public');
 
         // Crear o actualizar entrega
         Entrega::updateOrCreate(
@@ -69,8 +71,10 @@ class EntregaController extends Controller
             Storage::disk('public')->delete($entrega->archivo);
         }
 
-        // Subir nuevo archivo
-        $archivoNombre = $request->file('archivo')->store('entregas', 'public');
+        // Subir nuevo archivo con nombre original y prefijo
+        $archivoOriginal = $request->file('archivo')->getClientOriginalName();
+        $nombreArchivoConPrefijo = time() . '_' . $archivoOriginal;
+        $archivoNombre = $request->file('archivo')->storeAs('entregas', $nombreArchivoConPrefijo, 'public');
 
         // Guardar cambios
         $entrega->archivo = $archivoNombre;

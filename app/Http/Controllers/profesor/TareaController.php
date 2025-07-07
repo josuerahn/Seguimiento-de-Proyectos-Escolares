@@ -35,8 +35,9 @@ class TareaController extends Controller
 
         $archivoNombre = null;
         if ($request->hasFile('archivo')) {
-            // Guardar en disco público para que sea accesible via /storage
-            $archivoNombre = $request->file('archivo')->store('tareas', 'public');
+            $archivoOriginal = $request->file('archivo')->getClientOriginalName();
+            $nombreArchivoConPrefijo = time() . '_' . $archivoOriginal;
+            $archivoNombre = $request->file('archivo')->storeAs('tareas', $nombreArchivoConPrefijo, 'public');
         }
 
         Tarea::create([
@@ -82,8 +83,10 @@ class TareaController extends Controller
                 Storage::disk('public')->delete($tarea->archivo);
             }
             // Guardar nuevo archivo
-            $archivoNombre = $request->file('archivo')->store('tareas', 'public');
-            $tarea->archivo = $archivoNombre;
+            $archivoOriginal = $request->file('archivo')->getClientOriginalName();
+            $nombreArchivoConPrefijo = time() . '_' . $archivoOriginal;
+            $archivoRuta = $request->file('archivo')->storeAs('tareas', $nombreArchivoConPrefijo, 'public');
+            $tarea->archivo = $archivoRuta;
         }
 
         $tarea->titulo = $request->titulo;

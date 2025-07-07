@@ -9,7 +9,7 @@ class TareaController extends Controller
 {
     public function index()
     {
-        $tareas = Tarea::all(); // o las tareas específicas del alumno si tenés relación
+        $tareas = Tarea::all(); 
 
         return view('alumno.tareas.index', compact('tareas'));
     }
