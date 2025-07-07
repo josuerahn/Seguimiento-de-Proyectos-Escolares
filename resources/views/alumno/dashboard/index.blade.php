@@ -1,4 +1,5 @@
-@extends('layouts.alumno')
+<!DOCTYPE html>
+<html lang="es">
 
 @section('content')
     <h1>Bienvenido, {{ auth()->user()->nombre ?? 'Alumno' }}</h1>

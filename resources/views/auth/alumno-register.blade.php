@@ -1,37 +1,61 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Registro Alumno</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Registro Alumno</h1>
+<body class="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+    <div class="fixed inset-0 w-full h-full flex items-center justify-center bg-cover bg-center"
+style="background-image: url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');">
+         <div class="w-full max-w-md bg-white rounded-lg shadow-md p-8">
+        <div class="w-24 h-24 mx-auto mb-6">
+            <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" alt="Profesor"
+                class="w-full h-full object-cover rounded-full shadow-lg animate-bounce" />
+        </div>
 
-    <form method="POST" action="{{ route('alumno.register') }}">
-        @csrf
 
-        <label>Nombre:</label><br>
-        <input type="text" name="nombre" value="{{ old('nombre') }}" required autofocus>
-        @error('nombre') <div style="color:red;">{{ $message }}</div> @enderror
-        <br><br>
+        <form method="POST" action="{{ route('alumno.register') }}">
+            @csrf
 
-        <label>Email:</label><br>
-        <input type="email" name="email" value="{{ old('email') }}" required>
-        @error('email') <div style="color:red;">{{ $message }}</div> @enderror
-        <br><br>
+            <div class="mb-6">
+                <label for="nombre" class="block mb-2 font-semibold text-gray-700">Nombre</label>
+                <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" placeholder="Ingresa el nombre" required autofocus
+                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition" />
+                @error('nombre')
+                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                @enderror
+            </div>
 
-        <label>Contraseña:</label><br>
-        <input type="password" name="password" required>
-        @error('password') <div style="color:red;">{{ $message }}</div> @enderror
-        <br><br>
+            <div class="mb-6">
+                <label for="email" class="block mb-2 font-semibold text-gray-700">Email</label>
+                <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Ingresa el email"required autofocus
+                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition" />
+                @error('email')
+                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                @enderror
+            </div>
 
-        <label>Confirmar Contraseña:</label><br>
-        <input type="password" name="password_confirmation" required>
-        <br><br>
+            <div class="mb-6">
+                <label for="password" class="block mb-2 font-semibold text-gray-700">Contraseña</label>
+                <input type="password" id="password" name="password" placeholder="Ingresa la contraseña" required autofocus
+                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition" />
+                @error('password')
+                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                @enderror
+            </div>
 
-        <button type="submit">Registrar</button>
-    </form>
+            <div class="mb-6">
+                <label for="password_confirmation" class="block mb-2 font-semibold text-gray-700">Confirmar Contraseña</label>
+                <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Ingresa la contraseña" required autofocus
+                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition" />
+            </div>
 
-    <p>¿Ya tenés cuenta? <a href="{{ route('alumno.login') }}">Ingresar</a></p>
-</body>
-</html>
+             <button type="submit"
+                class="w-full py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl shadow-md hover:from-blue-600 hover:to-blue-700 transition duration-300 ease-in-out transform hover:-translate-y-0.5 hover:shadow-lg">
+                Registrar
+            </button>
+
+            <button type="submit"
+                class="w-full py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl shadow-md hover:fro

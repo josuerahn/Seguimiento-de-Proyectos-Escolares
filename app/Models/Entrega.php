@@ -9,28 +9,29 @@ class Entrega extends Model
 {
     use HasFactory;
 
-    // Campos asignables
+    // Campos que pueden ser asignados en masa
     protected $fillable = [
         'tarea_id',
         'alumno_id',
         'archivo',
         'fecha_entrega',
+        'calificacion',
     ];
 
-    // ✅ Cast para que 'fecha_entrega' sea un objeto Carbon automáticamente
+    // Cast automático para fechas
     protected $casts = [
         'fecha_entrega' => 'datetime',
     ];
 
-    // Relación con la tarea
+    // Relación: una entrega pertenece a una tarea
     public function tarea()
     {
-        return $this->belongsTo(Tarea::class, 'tarea_id');
+        return $this->belongsTo(Tarea::class);
     }
 
-    // Relación con el alumno
+    // Relación: una entrega pertenece a un alumno
     public function alumno()
     {
-        return $this->belongsTo(Alumno::class, 'alumno_id');
+        return $this->belongsTo(Alumno::class);
     }
 }
