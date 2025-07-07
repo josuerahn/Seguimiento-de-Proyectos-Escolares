@@ -1,9 +1,9 @@
 @extends('layouts.profesor')
-
+@section('title', 'Mis Tareas')
 @section('content')
 <div class="p-6 bg-white shadow-lg rounded-lg">
 
-    <h1 class="text-2xl font-bold mb-6 text-purple-700">Mis Tareas</h1>
+    
 
     <div class="mb-6 text-right">
         <a href="{{ route('profesor.tareas.create') }}" class="bg-gradient-to-r from-purple-600 via-indigo-500 to-blue-600 text-white px-4 py-2 rounded font-bold hover:opacity-90">
