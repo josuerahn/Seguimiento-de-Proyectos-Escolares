@@ -15,9 +15,12 @@ use App\Http\Controllers\Profesor\TareaController as ProfesorTareaController;
 
 // Ruta pública principal (welcome)
 Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
-
+    return view('bienvenido');
+})->name('bienvenido');
+// si no esta autenticado: 
+Route::get('/login', function () {
+    return redirect()->route('bienvenido');
+})->name('login');
 /*
 |--------------------------------------------------------------------------
 | RUTAS ALUMNO
