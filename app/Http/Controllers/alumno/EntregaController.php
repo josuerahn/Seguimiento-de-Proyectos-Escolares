@@ -17,15 +17,17 @@ class EntregaController extends Controller
         return view('alumno.entregas.create', compact('tarea'));
     }
 
-    // Guardar entrega
+    // Guardar entrega nueva
     public function store(Request $request)
     {
         $request->validate([
             'tarea_id' => 'required|exists:tareas,id',
-            'archivo' => 'required|file|mimes:pdf,doc,docx|max:2048',
+            'archivo' => 'required|file|mimes:pdf,doc,docx|max:10240', // 10MB
         ]);
 
-        $archivoNombre = $request->file('archivo')->store('entregas');
+        $archivoOriginal = $request->file('archivo')->getClientOriginalName();
+        $nombreArchivoConPrefijo = time() . '_' . $archivoOriginal;
+        $archivoNombre = $request->file('archivo')->storeAs('entregas', $nombreArchivoConPrefijo, 'public');
 
         Entrega::updateOrCreate(
             [
@@ -41,10 +43,9 @@ class EntregaController extends Controller
         return redirect()->route('alumno.dashboard')->with('success', 'Entrega realizada correctamente.');
     }
 
-    // Opcional: editar entrega (ejemplo para reemplazar archivo)
+    // Mostrar formulario para editar entrega
     public function edit(Entrega $entrega)
     {
-        // Verificar que sea del alumno logueado
         if ($entrega->alumno_id !== Auth::guard('alumno')->id()) {
             abort(403);
         }
@@ -52,6 +53,7 @@ class EntregaController extends Controller
         return view('alumno.entregas.edit', compact('entrega'));
     }
 
+    // Actualizar entrega existente
     public function update(Request $request, Entrega $entrega)
     {
         if ($entrega->alumno_id !== Auth::guard('alumno')->id()) {
@@ -59,15 +61,17 @@ class EntregaController extends Controller
         }
 
         $request->validate([
-            'archivo' => 'required|file|mimes:pdf,doc,docx|max:2048',
+            'archivo' => 'required|file|mimes:pdf,doc,docx|max:10240',
         ]);
 
-        // Borrar archivo viejo
         if ($entrega->archivo) {
-            Storage::delete($entrega->archivo);
+            Storage::disk('public')->delete($entrega->archivo);
         }
 
-        $archivoNombre = $request->file('archivo')->store('entregas');
+        $archivoOriginal = $request->file('archivo')->getClientOriginalName();
+        $nombreArchivoConPrefijo = time() . '_' . $archivoOriginal;
+        $archivoNombre = $request->file('archivo')->storeAs('entregas', $nombreArchivoConPrefijo, 'public');
+
         $entrega->archivo = $archivoNombre;
         $entrega->fecha_entrega = now();
         $entrega->save();
@@ -75,7 +79,7 @@ class EntregaController extends Controller
         return redirect()->route('alumno.dashboard')->with('success', 'Entrega actualizada correctamente.');
     }
 
-    // Borrar entrega
+    // Eliminar entrega
     public function destroy(Entrega $entrega)
     {
         if ($entrega->alumno_id !== Auth::guard('alumno')->id()) {
@@ -83,11 +87,22 @@ class EntregaController extends Controller
         }
 
         if ($entrega->archivo) {
-            Storage::delete($entrega->archivo);
+            Storage::disk('public')->delete($entrega->archivo);
         }
 
         $entrega->delete();
 
         return redirect()->route('alumno.dashboard')->with('success', 'Entrega eliminada correctamente.');
+    }
+
+    // Mostrar calificaciones del alumno
+    public function verCalificaciones()
+    {
+        $entregas = Entrega::with('tarea')
+            ->where('alumno_id', Auth::guard('alumno')->id())
+            ->whereNotNull('calificacion')
+            ->get();
+
+        return view('alumno.calificaciones.index', compact('entregas'));
     }
 }

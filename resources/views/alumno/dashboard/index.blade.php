@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
+<<<<<<< HEAD
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -364,3 +365,26 @@
 </body>
 
 </html>
+=======
+@section('content')
+    <h1>Bienvenido, {{ auth()->user()->nombre ?? 'Alumno' }}</h1>
+
+    <div style="display: flex; gap: 20px; margin-bottom: 30px;">
+        <div style="background: #e0ffe0; padding: 15px; border-radius: 10px;">
+            <h3>✅ Completadas</h3>
+            <p>{{ $completadas }}</p>
+        </div>
+        <div style="background: #fffacc; padding: 15px; border-radius: 10px;">
+            <h3>🕒 Pendientes</h3>
+            <p>{{ $pendientes }}</p>
+        </div>
+        <div style="background: #ffe0e0; padding: 15px; border-radius: 10px;">
+            <h3>❌ Vencidas</h3>
+            <p>{{ $vencidas }}</p>
+        </div>
+    </div>
+
+    {{-- Resto del contenido: listado de tareas --}}
+    {{-- ... --}}
+@endsection
+>>>>>>> 173a1d047b8c09d43153cf4b940aa434242e91e7

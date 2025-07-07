@@ -35,7 +35,9 @@ class TareaController extends Controller
 
         $archivoNombre = null;
         if ($request->hasFile('archivo')) {
-            $archivoNombre = $request->file('archivo')->store('tareas');
+            $archivoOriginal = $request->file('archivo')->getClientOriginalName();
+            $nombreArchivoConPrefijo = time() . '_' . $archivoOriginal;
+            $archivoNombre = $request->file('archivo')->storeAs('tareas', $nombreArchivoConPrefijo, 'public');
         }
 
         Tarea::create([
@@ -52,14 +54,21 @@ class TareaController extends Controller
     // Mostrar formulario para editar tarea
     public function edit(Tarea $tarea)
     {
-       
+        // Validar que el profesor sea dueño de la tarea
+        if ($tarea->profesor_id !== Auth::id()) {
+            abort(403);
+        }
+
         return view('profesor.tareas.edit', compact('tarea'));
     }
 
     // Actualizar tarea
     public function update(Request $request, Tarea $tarea)
     {
-        
+        // Validar que el profesor sea dueño de la tarea
+        if ($tarea->profesor_id !== Auth::id()) {
+            abort(403);
+        }
 
         $request->validate([
             'titulo' => 'required|string|max:255',
@@ -69,12 +78,15 @@ class TareaController extends Controller
         ]);
 
         if ($request->hasFile('archivo')) {
-            // Borra archivo anterior si existe
+            // Borrar archivo anterior si existe en disco público
             if ($tarea->archivo) {
-                Storage::delete($tarea->archivo);
+                Storage::disk('public')->delete($tarea->archivo);
             }
-            $archivoNombre = $request->file('archivo')->store('tareas');
-            $tarea->archivo = $archivoNombre;
+            // Guardar nuevo archivo
+            $archivoOriginal = $request->file('archivo')->getClientOriginalName();
+            $nombreArchivoConPrefijo = time() . '_' . $archivoOriginal;
+            $archivoRuta = $request->file('archivo')->storeAs('tareas', $nombreArchivoConPrefijo, 'public');
+            $tarea->archivo = $archivoRuta;
         }
 
         $tarea->titulo = $request->titulo;
@@ -88,10 +100,13 @@ class TareaController extends Controller
     // Eliminar tarea
     public function destroy(Tarea $tarea)
     {
-        
+        // Validar que el profesor sea dueño de la tarea
+        if ($tarea->profesor_id !== Auth::id()) {
+            abort(403);
+        }
 
         if ($tarea->archivo) {
-            Storage::delete($tarea->archivo);
+            Storage::disk('public')->delete($tarea->archivo);
         }
         $tarea->delete();
 
@@ -101,7 +116,11 @@ class TareaController extends Controller
     // Ver entregas de una tarea (opcional)
     public function verEntregas(Tarea $tarea)
     {
-        
+        // Validar que el profesor sea dueño de la tarea
+        if ($tarea->profesor_id !== Auth::id()) {
+            abort(403);
+        }
+
         $entregas = $tarea->entregas; // Asumiendo relación entregas() en el modelo Tarea
         return view('profesor.tareas.entregas', compact('tarea', 'entregas'));
     }

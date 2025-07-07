@@ -1,32 +1,58 @@
 @extends('layouts.profesor')
 
-@section('title', 'Entregas de la tarea')
+@section('title', 'Entregas de la Tarea')
 
 @section('content')
-    <h2>Entregas de: {{ $tarea->titulo }}</h2>
+    <h2>Entregas de la tarea: <strong>{{ $tarea->titulo }}</strong></h2>
 
-    @if($tarea->entregas->count())
-        <table border="1" cellpadding="5" cellspacing="0">
+    @if($entregas->isEmpty())
+        <p>No hay entregas todavía.</p>
+    @else
+        <table border="1" cellpadding="10" cellspacing="0">
             <thead>
                 <tr>
                     <th>Alumno</th>
                     <th>Archivo</th>
-                    <th>Fecha de entrega</th>
+                    <th>Fecha de Entrega</th>
+                    <th>Calificación</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($tarea->entregas as $entrega)
+                @foreach($entregas as $entrega)
                     <tr>
-                        <td>{{ $entrega->alumno->nombre }}</td>
+                        <td>{{ $entrega->alumno->nombre ?? 'Desconocido' }}</td>
+
                         <td>
-                            <a href="{{ Storage::url($entrega->archivo) }}" target="_blank">Ver archivo</a>
+                            @if($entrega->archivo)
+                                <a href="{{ asset('storage/' . $entrega->archivo) }}" target="_blank">Descargar</a>
+                            @else
+                                Sin archivo
+                            @endif
                         </td>
-                        <td>{{ $entrega->fecha_entrega->format('d/m/Y H:i') }}</td>
+
+                        <td>
+                            {{ \Carbon\Carbon::parse($entrega->fecha_entrega)->format('d/m/Y H:i') }}
+                        </td>
+
+                        <td>
+                            <form method="POST" action="{{ route('profesor.entregas.calificar', $entrega->id) }}">
+                                @csrf
+                                @method('PUT')
+                                <input 
+                                    type="number" 
+                                    name="calificacion" 
+                                    value="{{ $entrega->calificacion }}" 
+                                    min="0" max="10" step="0.1"
+                                    placeholder="Nota..." 
+                                    style="width: 80px;"
+                                    required
+                                >
+                                <button type="submit">Guardar</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-    @else
-        <p>Aún no hay entregas para esta tarea.</p>
     @endif
 @endsection
