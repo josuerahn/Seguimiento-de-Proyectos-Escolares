@@ -1,4 +1,4 @@
-@extends('layouts.profesor') {{-- O ajustá según tu layout base --}}
+@extends('layouts.profesor')
 
 @section('title', 'Entregas de la Tarea')
 
@@ -14,7 +14,7 @@
                     <th>Alumno</th>
                     <th>Archivo</th>
                     <th>Fecha de Entrega</th>
-                    <th>Acciones</th>
+                    <th>Calificación</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,12 +31,24 @@
                         </td>
 
                         <td>
-                            {{-- Conversión segura con Carbon --}}
                             {{ \Carbon\Carbon::parse($entrega->fecha_entrega)->format('d/m/Y H:i') }}
                         </td>
 
                         <td>
-                            {{-- Opcional: botón para eliminar o ver más --}}
+                            <form method="POST" action="{{ route('profesor.entregas.calificar', $entrega->id) }}">
+                                @csrf
+                                @method('PUT')
+                                <input 
+                                    type="number" 
+                                    name="calificacion" 
+                                    value="{{ $entrega->calificacion }}" 
+                                    min="0" max="10" step="0.1"
+                                    placeholder="Nota..." 
+                                    style="width: 80px;"
+                                    required
+                                >
+                                <button type="submit">Guardar</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

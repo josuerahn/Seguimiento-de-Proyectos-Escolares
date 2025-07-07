@@ -56,6 +56,7 @@
 
         <a href="{{ route('alumno.dashboard') }}">Dashboard</a>
         <a href="{{ route('alumno.tareas.index') }}">Tareas</a>
+        <a href="{{ route('alumno.calificaciones') }}">📊 Calificaciones</a>
 
         <!-- Agregar más enlaces si se necesita -->
 

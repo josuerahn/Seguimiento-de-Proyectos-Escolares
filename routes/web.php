@@ -10,6 +10,7 @@ use App\Http\Controllers\Alumno\EntregaController as AlumnoEntregaController;
 use App\Http\Controllers\Auth\RegistroProfesorController;
 use App\Http\Controllers\Auth\LoginProfesorController;
 use App\Http\Controllers\Profesor\DashboardProfesorController;
+use App\Http\Controllers\Profesor\EntregaProfesorController;
 use App\Http\Controllers\Profesor\TareaController as ProfesorTareaController;
 
 // Ruta pública principal (welcome)
@@ -17,6 +18,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+/*
+|--------------------------------------------------------------------------
+| RUTAS ALUMNO
+|--------------------------------------------------------------------------
 /*
 |--------------------------------------------------------------------------
 | RUTAS ALUMNO
@@ -50,6 +55,9 @@ Route::prefix('alumno')->name('alumno.')->group(function () {
         Route::get('entregas/{entrega}/edit', [AlumnoEntregaController::class, 'edit'])->name('entregas.edit');
         Route::put('entregas/{entrega}', [AlumnoEntregaController::class, 'update'])->name('entregas.update');
         Route::delete('entregas/{entrega}', [AlumnoEntregaController::class, 'destroy'])->name('entregas.destroy');
+
+        // ✅ Ruta para ver calificaciones
+        Route::get('calificaciones', [AlumnoEntregaController::class, 'verCalificaciones'])->name('calificaciones');
     });
 });
 
@@ -84,3 +92,5 @@ Route::prefix('profesor')->name('profesor.')->group(function () {
             ->name('tareas.entregas');
     });
 });
+Route::put('entregas/{entrega}/calificar', [EntregaProfesorController::class, 'calificar'])->name('profesor.entregas.calificar');
+Route::get('calificaciones', [App\Http\Controllers\Alumno\EntregaController::class, 'verCalificaciones'])->name('calificaciones');
