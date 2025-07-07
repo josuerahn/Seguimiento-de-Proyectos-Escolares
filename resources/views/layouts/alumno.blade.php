@@ -50,9 +50,13 @@
 
     <nav>
         <h2>Alumno</h2>
-        <p>{{ Auth::guard('alumno')->user()->nombre }}</p>
+        <p>
+            {{ Auth::guard('alumno')->check() ? Auth::guard('alumno')->user()->nombre : 'Invitado' }}
+        </p>
 
         <a href="{{ route('alumno.dashboard') }}">Dashboard</a>
+        <a href="{{ route('alumno.tareas.index') }}">Tareas</a>
+
         <!-- Agregar más enlaces si se necesita -->
 
         <form action="{{ route('alumno.logout') }}" method="POST" class="logout-form">
