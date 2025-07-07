@@ -22,7 +22,7 @@ class EntregaController extends Controller
     {
         $request->validate([
             'tarea_id' => 'required|exists:tareas,id',
-            'archivo' => 'required|file|mimes:pdf,doc,docx|max:10240', // 10MB
+            'archivo' => 'required|file|mimes:pdf,doc,docx,png|max:20240', // 10MB
         ]);
 
         $archivoOriginal = $request->file('archivo')->getClientOriginalName();

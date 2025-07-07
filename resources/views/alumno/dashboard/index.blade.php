@@ -1,24 +1,22 @@
-<!DOCTYPE html>
-<html lang="es">
+@extends('layouts.alumno')
+
+@section('title', 'Dashboard Alumno')
 
 @section('content')
-    <h1>Bienvenido, {{ auth()->user()->nombre ?? 'Alumno' }}</h1>
+    <h1 class="text-2xl font-bold mb-6">Bienvenido, {{ auth()->user()->nombre ?? 'Alumno' }}</h1>
 
-    <div style="display: flex; gap: 20px; margin-bottom: 30px;">
-        <div style="background: #e0ffe0; padding: 15px; border-radius: 10px;">
-            <h3>✅ Completadas</h3>
-            <p>{{ $completadas }}</p>
+    <div class="flex gap-4 mb-8">
+        <div class="bg-green-100 p-4 rounded-lg text-center flex-1">
+            <h3 class="text-lg font-bold text-green-700">✅ Completadas</h3>
+            <p class="text-xl font-bold">{{ $completadas }}</p>
         </div>
-        <div style="background: #fffacc; padding: 15px; border-radius: 10px;">
-            <h3>🕒 Pendientes</h3>
-            <p>{{ $pendientes }}</p>
+        <div class="bg-yellow-100 p-4 rounded-lg text-center flex-1">
+            <h3 class="text-lg font-bold text-yellow-700">🕒 Pendientes</h3>
+            <p class="text-xl font-bold">{{ $pendientes }}</p>
         </div>
-        <div style="background: #ffe0e0; padding: 15px; border-radius: 10px;">
-            <h3>❌ Vencidas</h3>
-            <p>{{ $vencidas }}</p>
+        <div class="bg-red-100 p-4 rounded-lg text-center flex-1">
+            <h3 class="text-lg font-bold text-red-700">❌ Vencidas</h3>
+            <p class="text-xl font-bold">{{ $vencidas }}</p>
         </div>
     </div>
-
-    {{-- Resto del contenido: listado de tareas --}}
-    {{-- ... --}}
 @endsection
