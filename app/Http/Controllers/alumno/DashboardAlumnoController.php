@@ -11,10 +11,14 @@ class DashboardAlumnoController extends Controller
     {
         $alumno = Auth::guard('alumno')->user();
 
-        // Obtener las tareas del alumno, incluyendo las entregas
-        $tareas = Tarea::with('entregas')->get();
+        // Obtener todas las tareas (o las que correspondan a este alumno, según tu lógica)
+        $tareas = Tarea::all();
 
-        return view('alumno.dashboard.index', compact('tareas'));
-
+        // PASAR variables necesarias a la vista
+        return view('alumno.dashboard.index', [
+            'alumno' => $alumno,
+            'tareas' => $tareas,
+            // No pases $tareasVigentes si no usás esa variable en la vista
+        ]);
     }
 }
