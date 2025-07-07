@@ -20,9 +20,12 @@ use App\Http\Controllers\Alumno\EntregaController;
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
-
+    return view('bienvenido');
+})->name('bienvenido');
+// si no esta autenticado: 
+Route::get('/login', function () {
+    return redirect()->route('bienvenido');
+})->name('login');
 /*
 |--------------------------------------------------------------------------
 | Rutas Profesor
