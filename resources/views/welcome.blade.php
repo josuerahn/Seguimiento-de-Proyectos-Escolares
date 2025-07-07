@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    @livewireStyles
+
     <title>Bienvenido - Gestión Escolar</title>
     <style>
         body {
@@ -52,5 +54,7 @@
         <a href="{{ route('alumno.login') }}" class="btn btn-alumno">Ingresar como Alumno</a>
         <a href="{{ route('profesor.login') }}" class="btn btn-profesor">Ingresar como Profesor</a>
     </div>
+    @livewireScripts
+    <livewire:landing-mensaje />
 </body>
 </html>
