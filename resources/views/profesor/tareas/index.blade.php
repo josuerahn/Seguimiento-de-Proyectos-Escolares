@@ -24,9 +24,12 @@
             @foreach ($tareas as $tarea)
                 <div class="p-4 bg-gradient-to-r from-purple-100 to-blue-100 rounded shadow flex flex-col md:flex-row md:items-center md:justify-between">
                     
-                    <p class="text-gray-700">
-    Fecha límite: {{ \Carbon\Carbon::parse($tarea->fecha_limite)->format('d/m/Y') }}
-</p>
+                    <div>
+                        <h2 class="text-lg font-bold text-purple-800 mb-1">{{ $tarea->titulo }}</h2>
+                        <p class="text-gray-700">
+                            Fecha límite: {{ \Carbon\Carbon::parse($tarea->fecha_limite)->format('d/m/Y') }}
+                        </p>
+                    </div>
 
                     <div class="mt-4 md:mt-0 flex space-x-2">
                         <a href="{{ route('profesor.tareas.edit', $tarea) }}" class="bg-yellow-400 text-purple-900 px-3 py-1 rounded font-semibold hover:bg-yellow-300">Editar</a>

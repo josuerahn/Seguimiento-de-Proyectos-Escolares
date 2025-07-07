@@ -35,7 +35,12 @@
                                 {{ \Carbon\Carbon::parse($entrega->fecha_entrega)->format('d/m/Y H:i') }}
                             </td>
                             <td class="px-4 py-2">
-                                {{-- Botones opcionales --}}
+                                <form action="{{ route('profesor.entregas.calificar', $entrega) }}" method="POST" class="flex items-center space-x-2">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="number" name="calificacion" value="{{ $entrega->calificacion ?? '' }}" min="0" max="10" step="0.1" class="w-16 border rounded px-2 py-1 text-center" placeholder="Nota">
+                                    <button type="submit" class="bg-purple-600 text-white px-2 py-1 rounded hover:bg-purple-700">Guardar</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
