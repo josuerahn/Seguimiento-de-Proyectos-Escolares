@@ -22,7 +22,10 @@ use App\Http\Controllers\Alumno\EntregaController;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
-
+// si no esta autenticado: 
+Route::get('/login', function () {
+    return redirect()->route('welcome');
+})->name('login');
 /*
 |--------------------------------------------------------------------------
 | Rutas Profesor

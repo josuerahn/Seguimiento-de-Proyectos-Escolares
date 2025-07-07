@@ -49,11 +49,12 @@
 <body>
 
     <nav>
-        <h2>Profesor</h2>
-        <p>{{ Auth::guard('profesor')->user()->nombre }}</p>
-
-        <a href="{{ route('profesor.dashboard') }}">Dashboard</a>
+        <h2>Bienvenido Profesor {{ Auth::guard('profesor')->user()->nombre }}
+</h2>
+        
+        <a href="{{ route('profesor.dashboard') }}">Inicio</a>
         <a href="{{ route('profesor.tareas.create') }}">Crear Tarea</a>
+        <a href="{{ route('profesor.tareas.index') }}">Lista de Tareas</a>
         <!-- Agregar más enlaces si se necesita -->
 
         <form action="{{ route('profesor.logout') }}" method="POST" class="logout-form">
