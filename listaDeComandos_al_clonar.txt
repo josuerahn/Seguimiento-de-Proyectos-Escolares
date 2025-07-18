@@ -1,0 +1,29 @@
+# 1. Clonar el repositorio
+git clone https://github.com/tuUsuario/tuRepositorio.git
+cd tuRepositorio
+
+# 2. Instalar dependencias PHP con Composer
+composer install
+
+# 3. Copiar archivo de configuración de entorno
+cp .env.example .env
+
+# 4. Generar clave de aplicación
+php artisan key:generate
+
+# 5. Instalar dependencias JS (Node y npm deben estar instalados)
+npm install
+
+# 6. Compilar assets (CSS, JS)
+npm run dev
+# o para producción:
+# npm run prod
+
+# 7. Crear las tablas en la base de datos (ejecutar migraciones)
+php artisan migrate
+
+# 8. (Opcional) Ejecutar seeders para datos de prueba
+php artisan db:seed
+
+# 9. Levantar el servidor local
+php artisan serve
